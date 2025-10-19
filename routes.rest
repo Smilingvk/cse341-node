@@ -3,3 +3,30 @@ GET https://cse341-node-ndnx.onrender.com/users/
 
 ### Get item by ID
 GET https://cse341-node-ndnx.onrender.com/users/68f44e0cca00acc829c368db
+
+### Create new user (POST)
+POST https://cse341-node-ndnx.onrender.com/users/
+Content-Type: application/json
+
+{
+  "firstName": "Prueba",
+  "lastName": "Alumno",
+  "email": "prueba.alumno@example.com",
+  "favoriteColor": "orange",
+  "birthday": "1999-09-09"
+}
+
+### Update user (PUT) 
+PUT https://cse341-node-ndnx.onrender.com/users/68f44e0cca00acc829c368db
+Content-Type: application/json
+
+{
+  "firstName": "NombreActualizado",
+  "lastName": "ApellidoActualizado",
+  "email": "actualizado@example.com",
+  "favoriteColor": "black",
+  "birthday": "1991-01-01"
+}
+
+### Delete user (DELETE)
+DELETE https://cse341-node-ndnx.onrender.com/users/68f44e0cca00acc829c368db
