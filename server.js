@@ -5,6 +5,10 @@ const bodyParser = require('body-parser');
 const mongodb = require('./data/database');
 const usersRouter = require('./routes/users');
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json'); // ruta al archivo
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const port = process.env.PORT || 3000;
 app.use(bodyParser.json()); // o app.use(express.json());
