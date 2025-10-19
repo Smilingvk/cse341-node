@@ -20,10 +20,13 @@
   "homepage": "https://github.com/Smilingvk/cse341-node#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^17.2.2",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "express-session": "^1.18.2",
     "mongodb": "^6.20.0",
     "mongoose": "^8.18.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {

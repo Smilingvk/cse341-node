@@ -207,5 +207,25 @@
         "required": ["firstName", "lastName", "email"]
       }
     }
+  },
+  "Authcomponents": {
+  "securitySchemes": {
+    "googleAuth": {
+      "type": "oauth2",
+      "flows": {
+        "authorizationCode": {
+          "authorizationUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+          "tokenUrl": "https://oauth2.googleapis.com/token",
+          "scopes": { "profile": "Acceso al perfil" }
+        }
+      }
+    }
   }
+},
+"/users": {
+  "post": {
+    "security": [{ "googleAuth": [] }]
+  }
+}
+
 }
