@@ -1,0 +1,25 @@
+### Get all items
+GET http://localhost:3000/users
+
+### Get item by ID
+GET http://localhost:3000/users/68f44e0cca00acc829c368db
+
+### Create new item
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Nuevo elemento",
+  "description": "Ejemplo creado desde .users"
+}
+
+### Update item
+PUT http://localhost:3000/users/68f44e0cca00acc829c368db
+Content-Type: application/json
+
+{
+  "name": "Elemento actualizado"
+}
+
+### Delete item
+DELETE http://localhost:3000/users/68f44e0cca00acc829c368db
