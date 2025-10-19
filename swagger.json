@@ -3,23 +3,29 @@
   "info": {
     "title": "Users API",
     "version": "1.0.0",
-    "description": "API para gestionar usuarios con MongoDB. Soporta operaciones GET, POST, PUT y DELETE."
+    "description": "API para gestionar usuarios con MongoDB. CRUD completo: GET, POST, PUT, DELETE. Documentación profesional para Swagger UI."
   },
   "servers": [
     {
-      "url": "https://cse341-node-ndnx.onrender.com",
-      "description": "Servidor de producción"
-    },
-    {
       "url": "http://localhost:3000",
       "description": "Servidor local"
+    },
+    {
+      "url": "https://cse341-node-ndnx.onrender.com",
+      "description": "Servidor en Render"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Operaciones CRUD para la colección de usuarios"
     }
   ],
   "paths": {
     "/users": {
       "get": {
-        "summary": "Obtener todos los usuarios",
         "tags": ["Users"],
+        "summary": "Obtener todos los usuarios",
         "responses": {
           "200": {
             "description": "Lista de usuarios",
@@ -28,6 +34,20 @@
                 "schema": {
                   "type": "array",
                   "items": { "$ref": "#/components/schemas/User" }
+                },
+                "examples": {
+                  "sample": {
+                    "value": [
+                      {
+                        "_id": "68f44e0cca00acc829c368db",
+                        "firstName": "Hello",
+                        "lastName": "World",
+                        "email": "test@test.com",
+                        "favoriteColor": "blue",
+                        "birthday": "1990-01-01"
+                      }
+                    ]
+                  }
                 }
               }
             }
@@ -35,27 +55,59 @@
         }
       },
       "post": {
-        "summary": "Crear un nuevo usuario",
         "tags": ["Users"],
+        "summary": "Crear un nuevo usuario",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/User" }
+              "schema": { "$ref": "#/components/schemas/User" },
+              "examples": {
+                "createUser": {
+                  "value": {
+                    "firstName": "Prueba",
+                    "lastName": "Alumno",
+                    "email": "prueba.alumno@example.com",
+                    "favoriteColor": "orange",
+                    "birthday": "1999-09-09"
+                  }
+                }
+              }
             }
           }
         },
         "responses": {
-          "201": { "description": "Usuario creado exitosamente" },
-          "400": { "description": "Faltan campos requeridos" },
-          "500": { "description": "Error interno del servidor" }
+          "201": {
+            "description": "Usuario creado correctamente",
+            "content": {
+              "application/json": {
+                "example": { "id": "68f44f4aca00acc829c368dc" }
+              }
+            }
+          },
+          "400": {
+            "description": "Faltan campos requeridos",
+            "content": {
+              "application/json": {
+                "example": { "error": "firstName, lastName y email son obligatorios" }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "example": { "error": "Internal server error" }
+              }
+            }
+          }
         }
       }
     },
     "/users/{id}": {
       "get": {
-        "summary": "Obtener un usuario por ID",
         "tags": ["Users"],
+        "summary": "Obtener un usuario por ID",
         "parameters": [
           {
             "name": "id",
@@ -66,35 +118,77 @@
           }
         ],
         "responses": {
-          "200": { "description": "Usuario encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
-          "404": { "description": "Usuario no encontrado" }
+          "200": {
+            "description": "Usuario encontrado",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/User" } }
+            }
+          },
+          "404": {
+            "description": "Usuario no encontrado",
+            "content": {
+              "application/json": { "example": { "error": "Usuario no encontrado" } }
+            }
+          }
         }
       },
       "put": {
-        "summary": "Actualizar un usuario por ID",
         "tags": ["Users"],
+        "summary": "Actualizar un usuario por ID",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "ID del usuario" }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID del usuario"
+          }
         ],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } }
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/User" },
+              "examples": {
+                "updateUser": {
+                  "value": {
+                    "firstName": "NombreActualizado",
+                    "lastName": "ApellidoActualizado",
+                    "email": "actualizado@example.com",
+                    "favoriteColor": "black",
+                    "birthday": "1991-01-01"
+                  }
+                }
+              }
+            }
+          }
         },
         "responses": {
-          "200": { "description": "Usuario actualizado" },
+          "200": { "description": "Usuario actualizado correctamente" },
           "400": { "description": "Datos inválidos" },
           "404": { "description": "Usuario no encontrado" }
         }
       },
       "delete": {
-        "summary": "Eliminar un usuario por ID",
         "tags": ["Users"],
+        "summary": "Eliminar un usuario por ID",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "ID del usuario" }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID del usuario"
+          }
         ],
         "responses": {
           "204": { "description": "Usuario eliminado" },
-          "404": { "description": "Usuario no encontrado" }
+          "404": {
+            "description": "Usuario no encontrado",
+            "content": {
+              "application/json": { "example": { "error": "Usuario no encontrado" } }
+            }
+          }
         }
       }
     }

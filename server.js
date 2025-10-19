@@ -7,6 +7,8 @@ const usersRouter = require('./routes/users');
 const app = express();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json'); // ruta al archivo
+const cors = require('cors');
+app.use(cors());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
