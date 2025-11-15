@@ -19,20 +19,6 @@ app.use('/users', usersRouter);
 
 // 404 fallback
 app.use((req,res) => res.status(404).send(`Cannot ${req.method} ${req.originalUrl}`));
-const session = require('express-session');
-const passport = require('./auth'); // archivo anterior
-
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use('/auth', require('./routes/auth'));
-
 mongodb.initDb((err) => {
   if (err) {
     console.error('DB init error:', err);

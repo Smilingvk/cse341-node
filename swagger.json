@@ -1,231 +1,350 @@
 {
+
+
+
   "openapi": "3.0.3",
+
+
   "info": {
+
+
     "title": "Users API",
+
+
     "version": "1.0.0",
-    "description": "API para gestionar usuarios con MongoDB. CRUD completo: GET, POST, PUT, DELETE. Documentación profesional para Swagger UI."
+
+
+    "description": "API para gestionar usuarios con MongoDB. Soporta operaciones GET, POST, PUT y DELETE."
+
+
   },
+
+
   "servers": [
+
+
     {
-      "url": "http://localhost:3000",
-      "description": "Servidor local"
-    },
-    {
+
+
       "url": "https://cse341-node-ndnx.onrender.com",
-      "description": "Servidor en Render"
-    }
-  ],
-  "tags": [
-    {
-      "name": "Users",
-      "description": "Operaciones CRUD para la colección de usuarios"
-    }
-  ],
-  "paths": {
-    "/users": {
-      "get": {
-        "tags": ["Users"],
-        "summary": "Obtener todos los usuarios",
-        "responses": {
-          "200": {
-            "description": "Lista de usuarios",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/components/schemas/User" }
-                },
-                "examples": {
-                  "sample": {
-                    "value": [
-                      {
-                        "_id": "68f44e0cca00acc829c368db",
-                        "firstName": "Hello",
-                        "lastName": "World",
-                        "email": "test@test.com",
-                        "favoriteColor": "blue",
-                        "birthday": "1990-01-01"
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["Users"],
-        "summary": "Crear un nuevo usuario",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/User" },
-              "examples": {
-                "createUser": {
-                  "value": {
-                    "firstName": "Prueba",
-                    "lastName": "Alumno",
-                    "email": "prueba.alumno@example.com",
-                    "favoriteColor": "orange",
-                    "birthday": "1999-09-09"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Usuario creado correctamente",
-            "content": {
-              "application/json": {
-                "example": { "id": "68f44f4aca00acc829c368dc" }
-              }
-            }
-          },
-          "400": {
-            "description": "Faltan campos requeridos",
-            "content": {
-              "application/json": {
-                "example": { "error": "firstName, lastName y email son obligatorios" }
-              }
-            }
-          },
-          "500": {
-            "description": "Error interno del servidor",
-            "content": {
-              "application/json": {
-                "example": { "error": "Internal server error" }
-              }
-            }
-          }
-        }
-      }
+
+
+      "description": "Servidor de producción"
+
+
     },
-    "/users/{id}": {
+
+
+    {
+
+
+      "url": "http://localhost:3000",
+
+
+      "description": "Servidor local"
+
+
+    }
+
+
+  ],
+
+
+  "paths": {
+
+
+    "/users": {
+
+
       "get": {
+
+
+        "summary": "Obtener todos los usuarios",
+
+
         "tags": ["Users"],
-        "summary": "Obtener un usuario por ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" },
-            "description": "ID del usuario"
-          }
-        ],
+
+
         "responses": {
+
+
           "200": {
-            "description": "Usuario encontrado",
+
+
+            "description": "Lista de usuarios",
+
+
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/User" } }
-            }
-          },
-          "404": {
-            "description": "Usuario no encontrado",
-            "content": {
-              "application/json": { "example": { "error": "Usuario no encontrado" } }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": ["Users"],
-        "summary": "Actualizar un usuario por ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" },
-            "description": "ID del usuario"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/User" },
-              "examples": {
-                "updateUser": {
-                  "value": {
-                    "firstName": "NombreActualizado",
-                    "lastName": "ApellidoActualizado",
-                    "email": "actualizado@example.com",
-                    "favoriteColor": "black",
-                    "birthday": "1991-01-01"
-                  }
+
+
+              "application/json": {
+
+
+                "schema": {
+
+
+                  "type": "array",
+
+
+                  "items": { "$ref": "#/components/schemas/User" }
+
+
                 }
+
+
               }
+
+
             }
+
+
           }
-        },
-        "responses": {
-          "200": { "description": "Usuario actualizado correctamente" },
-          "400": { "description": "Datos inválidos" },
-          "404": { "description": "Usuario no encontrado" }
+
+
         }
+
+
       },
-      "delete": {
+
+
+      "post": {
+
+
+        "summary": "Crear un nuevo usuario",
+
+
         "tags": ["Users"],
-        "summary": "Eliminar un usuario por ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" },
-            "description": "ID del usuario"
-          }
-        ],
-        "responses": {
-          "204": { "description": "Usuario eliminado" },
-          "404": {
-            "description": "Usuario no encontrado",
-            "content": {
-              "application/json": { "example": { "error": "Usuario no encontrado" } }
+
+
+        "requestBody": {
+
+
+          "required": true,
+
+
+          "content": {
+
+
+            "application/json": {
+
+
+              "schema": { "$ref": "#/components/schemas/User" }
+
+
             }
+
+
           }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "User": {
-        "type": "object",
-        "properties": {
-          "firstName": { "type": "string", "example": "Juan" },
-          "lastName": { "type": "string", "example": "Perez" },
-          "email": { "type": "string", "example": "juan@example.com" },
-          "favoriteColor": { "type": "string", "example": "blue" },
-          "birthday": { "type": "string", "format": "date", "example": "1990-01-01" }
+
+
         },
-        "required": ["firstName", "lastName", "email"]
-      }
-    }
-  },
-  "Authcomponents": {
-  "securitySchemes": {
-    "googleAuth": {
-      "type": "oauth2",
-      "flows": {
-        "authorizationCode": {
-          "authorizationUrl": "https://accounts.google.com/o/oauth2/v2/auth",
-          "tokenUrl": "https://oauth2.googleapis.com/token",
-          "scopes": { "profile": "Acceso al perfil" }
+
+
+        "responses": {
+
+
+          "201": { "description": "Usuario creado exitosamente" },
+
+
+          "400": { "description": "Faltan campos requeridos" },
+
+
+          "500": { "description": "Error interno del servidor" }
+
+
         }
+
+
       }
+
+
+    },
+
+
+    "/users/{id}": {
+
+
+      "get": {
+
+
+        "summary": "Obtener un usuario por ID",
+
+
+        "tags": ["Users"],
+
+
+        "parameters": [
+
+
+          {
+
+
+            "name": "id",
+
+
+            "in": "path",
+
+
+            "required": true,
+
+
+            "schema": { "type": "string" },
+
+
+            "description": "ID del usuario"
+
+
+          }
+
+
+        ],
+
+
+        "responses": {
+
+
+          "200": { "description": "Usuario encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
+
+
+          "404": { "description": "Usuario no encontrado" }
+
+
+        }
+
+
+      },
+
+
+      "put": {
+
+
+        "summary": "Actualizar un usuario por ID",
+
+
+        "tags": ["Users"],
+
+
+        "parameters": [
+
+
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "ID del usuario" }
+
+
+        ],
+
+
+        "requestBody": {
+
+
+          "required": true,
+
+
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } }
+
+
+        },
+
+
+        "responses": {
+
+
+          "200": { "description": "Usuario actualizado" },
+
+
+          "400": { "description": "Datos inválidos" },
+
+
+          "404": { "description": "Usuario no encontrado" }
+
+
+        }
+
+
+      },
+
+
+      "delete": {
+
+
+        "summary": "Eliminar un usuario por ID",
+
+
+        "tags": ["Users"],
+
+
+        "parameters": [
+
+
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "ID del usuario" }
+
+
+        ],
+
+
+        "responses": {
+
+
+          "204": { "description": "Usuario eliminado" },
+
+
+          "404": { "description": "Usuario no encontrado" }
+
+
+        }
+
+
+      }
+
+
     }
+
+
+  },
+
+
+  "components": {
+
+
+    "schemas": {
+
+
+      "User": {
+
+
+        "type": "object",
+
+
+        "properties": {
+
+
+          "firstName": { "type": "string", "example": "Juan" },
+
+
+          "lastName": { "type": "string", "example": "Perez" },
+
+
+          "email": { "type": "string", "example": "juan@example.com" },
+
+
+          "favoriteColor": { "type": "string", "example": "blue" },
+
+
+          "birthday": { "type": "string", "format": "date", "example": "1990-01-01" }
+
+
+        },
+
+
+        "required": ["firstName", "lastName", "email"]
+
+
+      }
+
+
+    }
+
+
   }
-},
-"/users": {
-  "post": {
-    "security": [{ "googleAuth": [] }]
-  }
-}
+
 
 }
