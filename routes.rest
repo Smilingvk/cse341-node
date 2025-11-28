@@ -1,32 +1,117 @@
-### Get all items
-GET https://cse341-node-ndnx.onrender.com/users
+### ==================== AUTHENTICATION ====================
 
-### Get item by ID
-GET https://cse341-node-ndnx.onrender.com/users/68f463fc6e4cab3ff74ec1d8
+### Login (Open in browser)
+# GET http://localhost:3000/auth/login
+GET https://cse341-node-7yaa.onrender.com/auth/login
 
-### Create new user (POST)
-POST https://cse341-node-ndnx.onrender.com/users/
+### Logout (Open in browser)
+# GET http://localhost:3000/auth/logout
+GET https://cse341-node-7yaa.onrender.com/auth/logout
+
+### ==================== USERS ====================
+
+### Get all users (Public)
+GET https://cse341-node-7yaa.onrender.com/users
+
+### Get user by ID (Public)
+GET https://cse341-node-7yaa.onrender.com/users/68f463fc6e4cab3ff74ec1d8
+
+### Create new user (PROTECTED - requires authentication)
+POST https://cse341-node-7yaa.onrender.com/users
 Content-Type: application/json
 
 {
-  "firstName": "Prueba2",
-  "lastName": "Alumno2",
-  "email": "prueba2.alumno@example.com",
-  "favoriteColor": "black",
-  "birthday": "1999-09-09"
+  "firstName": "Maria",
+  "lastName": "Rodriguez",
+  "email": "maria.rodriguez@example.com",
+  "favoriteColor": "green",
+  "birthday": "1995-05-15"
 }
 
-### Update user (PUT) 
-PUT https://cse341-node-ndnx.onrender.com/users/68f463fc6e4cab3ff74ec1d8
+### Update user (PROTECTED - requires authentication)
+PUT https://cse341-node-7yaa.onrender.com/users/68f463fc6e4cab3ff74ec1d8
 Content-Type: application/json
 
 {
-  "firstName": "Valeria",
-  "lastName": "Guzman",
-  "email": "actualizado@example.com",
-  "favoriteColor": "pink",
-  "birthday": "1991-01-01"
+  "firstName": "Maria",
+  "lastName": "Rodriguez Updated",
+  "email": "maria.updated@example.com",
+  "favoriteColor": "blue",
+  "birthday": "1995-05-15"
 }
 
-### Delete user (DELETE)
-DELETE https://cse341-node-ndnx.onrender.com/users/68f463fc6e4cab3ff74ec1d8
+### Delete user (PROTECTED - requires authentication)
+DELETE https://cse341-node-7yaa.onrender.com/users/68f463fc6e4cab3ff74ec1d8
+
+### ==================== PRODUCTS ====================
+
+### Get all products (Public)
+GET https://cse341-node-7yaa.onrender.com/products
+
+### Get product by ID (Public)
+GET https://cse341-node-7yaa.onrender.com/products/REPLACE_WITH_ACTUAL_ID
+
+### Create new product (PROTECTED - requires authentication)
+POST https://cse341-node-7yaa.onrender.com/products
+Content-Type: application/json
+
+{
+  "name": "Laptop Dell XPS 15",
+  "description": "High-performance laptop with Intel i7 processor, 16GB RAM, 512GB SSD",
+  "price": 1299.99,
+  "category": "Electronics",
+  "stock": 25,
+  "manufacturer": "Dell",
+  "releaseDate": "2024-01-15"
+}
+
+### Update product (PROTECTED - requires authentication)
+PUT https://cse341-node-7yaa.onrender.com/products/REPLACE_WITH_ACTUAL_ID
+Content-Type: application/json
+
+{
+  "name": "Laptop Dell XPS 15 Updated",
+  "description": "Updated description with new features",
+  "price": 1199.99,
+  "category": "Electronics",
+  "stock": 30,
+  "manufacturer": "Dell",
+  "releaseDate": "2024-01-15"
+}
+
+### Delete product (PROTECTED - requires authentication)
+DELETE https://cse341-node-7yaa.onrender.com/products/REPLACE_WITH_ACTUAL_ID
+
+### ==================== ERROR TESTING ====================
+
+### Test invalid ID format
+GET https://cse341-node-7yaa.onrender.com/users/invalid-id
+
+### Test missing required fields
+POST https://cse341-node-7yaa.onrender.com/users
+Content-Type: application/json
+
+{
+  "firstName": "Test"
+}
+
+### Test invalid price for product
+POST https://cse341-node-7yaa.onrender.com/products
+Content-Type: application/json
+
+{
+  "name": "Test Product",
+  "description": "Test description",
+  "price": -100,
+  "category": "Test"
+}
+
+### Test protected route without authentication
+POST https://cse341-node-7yaa.onrender.com/users
+Content-Type: application/json
+
+{
+  "firstName": "Unauthorized",
+  "lastName": "User",
+  "email": "unauthorized@example.com"
+}
