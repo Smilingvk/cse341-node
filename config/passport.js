@@ -5,7 +5,7 @@ const passport = require('passport');
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.CALLBACK_URL || "http://localhost:3000/github/callback"
+    callbackURL: process.env.CALLBACK_URL || "https://cse341-node-7yaa.onrender.com/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     return done(null, profile);
