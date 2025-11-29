@@ -3,7 +3,7 @@
   "info": {
     "title": "Users and Products API",
     "version": "1.0.0",
-    "description": "API para gestionar usuarios y productos con MongoDB. Incluye autenticación OAuth con GitHub."
+    "description": "API para gestionar usuarios y productos con MongoDB. Para autenticarte, visita /auth/login en tu navegador."
   },
   "servers": [
     {
@@ -18,7 +18,8 @@
   "paths": {
     "/auth/login": {
       "get": {
-        "summary": "Login con GitHub OAuth",
+        "summary": "Login con GitHub OAuth (abrir en navegador)",
+        "description": "Este endpoint debe abrirse en un navegador, no puede ejecutarse desde Swagger UI. Visita https://cse341-node-7yaa.onrender.com/auth/login",
         "tags": ["Authentication"],
         "responses": {
           "302": { "description": "Redirige a GitHub para autenticación" }
@@ -27,7 +28,8 @@
     },
     "/auth/logout": {
       "get": {
-        "summary": "Logout",
+        "summary": "Logout (abrir en navegador)",
+        "description": "Cierra la sesión. Debe abrirse en un navegador.",
         "tags": ["Authentication"],
         "responses": {
           "302": { "description": "Cierra sesión y redirige" }
@@ -54,8 +56,8 @@
       },
       "post": {
         "summary": "Crear un nuevo usuario (requiere autenticación)",
+        "description": "Primero debes autenticarte visitando /auth/login en tu navegador, luego regresa aquí para usar este endpoint",
         "tags": ["Users"],
-        "security": [{ "OAuth2": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -67,7 +69,19 @@
         "responses": {
           "201": { "description": "Usuario creado exitosamente" },
           "400": { "description": "Faltan campos requeridos" },
-          "401": { "description": "No autenticado" },
+          "401": { 
+            "description": "No autenticado - Visita /auth/login primero",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "string", "example": "Authentication required. Please log in." }
+                  }
+                }
+              }
+            }
+          },
           "500": { "description": "Error interno del servidor" }
         }
       }
@@ -99,8 +113,8 @@
       },
       "put": {
         "summary": "Actualizar un usuario por ID (requiere autenticación)",
+        "description": "Primero debes autenticarte visitando /auth/login en tu navegador",
         "tags": ["Users"],
-        "security": [{ "OAuth2": [] }],
         "parameters": [
           { 
             "name": "id", 
@@ -121,14 +135,14 @@
         "responses": {
           "200": { "description": "Usuario actualizado" },
           "400": { "description": "Datos inválidos" },
-          "401": { "description": "No autenticado" },
+          "401": { "description": "No autenticado - Visita /auth/login primero" },
           "404": { "description": "Usuario no encontrado" }
         }
       },
       "delete": {
         "summary": "Eliminar un usuario por ID (requiere autenticación)",
+        "description": "Primero debes autenticarte visitando /auth/login en tu navegador",
         "tags": ["Users"],
-        "security": [{ "OAuth2": [] }],
         "parameters": [
           { 
             "name": "id", 
@@ -140,7 +154,7 @@
         ],
         "responses": {
           "204": { "description": "Usuario eliminado" },
-          "401": { "description": "No autenticado" },
+          "401": { "description": "No autenticado - Visita /auth/login primero" },
           "404": { "description": "Usuario no encontrado" }
         }
       }
@@ -165,8 +179,8 @@
       },
       "post": {
         "summary": "Crear un nuevo producto (requiere autenticación)",
+        "description": "Primero debes autenticarte visitando /auth/login en tu navegador",
         "tags": ["Products"],
-        "security": [{ "OAuth2": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -178,7 +192,7 @@
         "responses": {
           "201": { "description": "Producto creado exitosamente" },
           "400": { "description": "Faltan campos requeridos" },
-          "401": { "description": "No autenticado" },
+          "401": { "description": "No autenticado - Visita /auth/login primero" },
           "500": { "description": "Error interno del servidor" }
         }
       }
@@ -210,8 +224,8 @@
       },
       "put": {
         "summary": "Actualizar un producto por ID (requiere autenticación)",
+        "description": "Primero debes autenticarte visitando /auth/login en tu navegador",
         "tags": ["Products"],
-        "security": [{ "OAuth2": [] }],
         "parameters": [
           { 
             "name": "id", 
@@ -232,14 +246,14 @@
         "responses": {
           "200": { "description": "Producto actualizado" },
           "400": { "description": "Datos inválidos" },
-          "401": { "description": "No autenticado" },
+          "401": { "description": "No autenticado - Visita /auth/login primero" },
           "404": { "description": "Producto no encontrado" }
         }
       },
       "delete": {
         "summary": "Eliminar un producto por ID (requiere autenticación)",
+        "description": "Primero debes autenticarte visitando /auth/login en tu navegador",
         "tags": ["Products"],
-        "security": [{ "OAuth2": [] }],
         "parameters": [
           { 
             "name": "id", 
@@ -251,7 +265,7 @@
         ],
         "responses": {
           "204": { "description": "Producto eliminado" },
-          "401": { "description": "No autenticado" },
+          "401": { "description": "No autenticado - Visita /auth/login primero" },
           "404": { "description": "Producto no encontrado" }
         }
       }
@@ -282,18 +296,6 @@
           "releaseDate": { "type": "string", "format": "date", "example": "2024-01-15" }
         },
         "required": ["name", "description", "price", "category"]
-      }
-    },
-    "securitySchemes": {
-      "OAuth2": {
-        "type": "oauth2",
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "/auth/login",
-            "tokenUrl": "/auth/callback",
-            "scopes": {}
-          }
-        }
       }
     }
   }
